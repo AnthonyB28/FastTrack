@@ -1,0 +1,5 @@
+FastTrack/bin/
+FastTrack/obj/
+packages/
+*.suo
+*.user

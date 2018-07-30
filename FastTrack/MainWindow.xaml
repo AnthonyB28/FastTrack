@@ -1,0 +1,64 @@
+﻿<Window x:Class="FastTrack.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FastTrack"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="600">
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" FontSize="30" Text="{Binding CurrentFastTimeText, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"/>
+        <Button Grid.Row="1" Margin="0,5,0,0" Content="{Binding FastButtonText}" Click="FastButton_Click" Width="200" HorizontalAlignment="Center"/>
+        <DataGrid Grid.Row="2" Margin="0,5,0,0" CanUserAddRows="False" CanUserReorderColumns="False" CanUserSortColumns="False" 
+                  ItemsSource="{Binding FastEntriesReverse, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False" RowDetailsVisibilityMode="VisibleWhenSelected">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Days" IsReadOnly="True" Binding="{Binding DaysFasted, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"/>
+                <DataGridTextColumn Header="Start Weight" IsReadOnly="True" Binding="{Binding StartWeight, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"/>
+                <DataGridTextColumn Header="End Weight" IsReadOnly="True" Binding="{Binding EndWeight, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"/>
+                <DataGridTemplateColumn Header="Start">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <xctk:DateTimePicker Value="{Binding StartTime, UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="End">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <xctk:DateTimePicker Value="{Binding EndTime, UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+            <DataGrid.RowDetailsTemplate>
+                <DataTemplate>
+                    <Grid Margin="5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="Weight Tracking Per Day"/>
+                        <ListBox Grid.Row="1" Margin="0,5,0,0"
+                                 MaxHeight="100"
+                                  ItemsSource="{Binding Weights, UpdateSourceTrigger=PropertyChanged}" >
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <xctk:IntegerUpDown Width="50" FormatString="N1" Increment="1" Value="{Binding Value, UpdateSourceTrigger=PropertyChanged}"/>
+                                        <TextBlock Margin="3,0,0,0" Text="lbs"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Grid>
+                </DataTemplate>
+            </DataGrid.RowDetailsTemplate>
+        </DataGrid>
+    </Grid>
+</Window>
